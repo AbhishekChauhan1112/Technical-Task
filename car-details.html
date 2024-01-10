@@ -1,0 +1,81 @@
+<!-- public/car-details.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Car Selling App - Details</title>
+</head>
+<body>
+    <header>
+        <h1>Car Details</h1>
+    </header>
+
+    <main>
+        <section class="car-details">
+            <!-- Display car details dynamically here -->
+            <button onclick="goBack()">Back to Home</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Car Selling App</p>
+    </footer>
+
+    <script src="app.js">
+        // public/car-details.html
+
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const carId = urlParams.get('carId');
+
+    if (carId) {
+        // Fetch car details based on the carId from the server
+        fetch(`/api/cars/${carId}`)
+            .then(response => response.json())
+            .then(car => {
+                // Display car details on the car details page
+                displayCarDetails(car);
+            })
+            .catch(error => console.error('Error fetching car details:', error));
+    }
+});
+
+function displayCarDetails(car) {
+    const carDetailsContainer = document.querySelector('.car-details');
+
+const image = document.createElement('img');
+image.src = 'path/to/car/image'; // Replace with the actual path to the car image
+image.alt = `${car.make} ${car.model}`;
+carDetailsContainer.appendChild(image);
+
+const makeModel = document.createElement('h2');
+makeModel.textContent = `${car.make} ${car.model}`;
+carDetailsContainer.appendChild(makeModel);
+
+const year = document.createElement('p');
+year.textContent = `Year: ${car.year}`;
+carDetailsContainer.appendChild(year);
+
+const price = document.createElement('p');
+price.textContent = `Price: $${car.price}`;
+carDetailsContainer.appendChild(price);
+
+const owner = document.createElement('p');
+owner.textContent = `Owner: ${car.owner}`;
+carDetailsContainer.appendChild(owner);
+
+const goBackButton = document.createElement('button');
+goBackButton.textContent = 'Back to Home';
+goBackButton.addEventListener('click', () => {
+    // Navigate back to the home page
+    window.location.href = '/index.html';
+});
+carDetailsContainer.appendChild(goBackButton);
+}
+
+    </script>
+</body>
+</html>
